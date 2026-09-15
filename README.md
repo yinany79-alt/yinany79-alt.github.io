@@ -17,7 +17,7 @@ npm run dev
 npm run check
 ```
 
-静态产物生成在 `dist/client`，可部署到任意静态托管服务。本项目的正式发布使用 OpenAI Sites，项目绑定信息保存在 `.openai/hosting.json`。
+静态产物生成在 `dist/client`，可部署到任意静态托管服务。本项目通过 GitHub Actions 持续发布到 [GitHub Pages](https://yinany79-alt.github.io/)；OpenAI Sites 保留为备份托管，其项目绑定信息保存在 `.openai/hosting.json`。
 
 ## 日常维护
 
