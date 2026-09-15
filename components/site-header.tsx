@@ -4,7 +4,7 @@ const links = [["PROJECTS", "/projects"], ["WRITING", "/writing"], ["RESUME", "/
 
 export function SiteHeader() {
   return <header className="site-header">
-    <Link className="wordmark" href="/" aria-label="杨弋南个人技术站首页">YANG YINAN</Link>
-    <nav className="site-nav" aria-label="主导航">{links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</nav>
+    <Link className="wordmark" href="/" aria-label="杨弋南个人技术站首页" prefetch={false}>YANG YINAN</Link>
+    <nav className="site-nav" aria-label="主导航">{links.map(([label, href]) => <Link key={href} href={href} prefetch={false}>{label}</Link>)}</nav>
   </header>;
 }
