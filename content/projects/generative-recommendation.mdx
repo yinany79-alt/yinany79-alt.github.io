@@ -1,0 +1,22 @@
+---
+slug: generative-recommendation
+title: 生成式推荐与算法基础设施
+eyebrow: 03 / GENERATIVE RECOMMENDATION
+summary: 从 CTR 全链路出发，理解 OneRec 类生成式推荐如何重构数据、训练与交付。
+role: 产品负责人 / 算法基建
+period: 2024 — 至今
+tags: [CTR, OneRec, HSTU GR, ModelZoo]
+outcomes: [10TB 级稀疏参数, 10B 级稠密模型, H800 MFU 40%+, 覆盖 10+ 核心流量场景]
+order: 3
+---
+## 先理解 CTR 链路
+
+生成式推荐不是单独的模型功能。它继承了样本加工、特征与 Embedding、模型开发、训练调试、评测编译、部署、在线推理和样本回流的完整 CTR 链路，同时改变了其中的数据和训练假设。
+
+## 生成式路径的基建要求
+
+参与将 OneRec、HSTU GR、GPT GR 等底座接入 ModelZoo，把动态特征拼接、样本无损续训、TB 级稀疏词表、非标准 Attention Mask 与 RL 组网需求转译为样本引擎、训练配置、资源调度和模型交付能力。
+
+## 平台的价值是让新范式可复用
+
+支撑 TensorFlow/PyTorch、GPU/NPU 统一训练及传统/生成式场景复用。通过工作流、模型资产和运行契约降低业务验证与迁移成本，让新模型路径不必重新发明一套平台。

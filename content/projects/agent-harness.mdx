@@ -1,0 +1,26 @@
+---
+slug: agent-harness
+title: AI Infra Agentic 化
+eyebrow: 01 / AGENT HARNESS
+summary: 让 Agent 从“会回答”进化到能够安全、连续地操作训练平台。
+role: 产品负责人 / Harness 与 Skill 体系
+period: 2025 — 至今
+tags: [Agent Harness, Skill, Evaluation, Loop Engineering]
+outcomes: [每周 2–3 个 Bot 版本迭代, 日均请求 800+, 近 7 日 Skill 调用 1122 次, 周活用户 450]
+order: 1
+---
+## 问题不是多一个对话框
+
+算法研发横跨本地 IDE、Notebook、训练平台和调度系统。开发调试、配置生成、任务提交、状态监控与失败诊断长期依赖人工串联。真正的目标不是补一个问答入口，而是让 Agent 具备可控的平台执行能力。
+
+## Harness：从意图到证据
+
+基于 JoyAgent、LangGraph 与 HERMES 推动架构升级，将执行过程抽象为“意图识别—事实取证—计划生成—Tool 调用—结果校验—失败降级”。状态管理、权限确认和证据链是长任务可靠性的核心，而不是更长的 Prompt。
+
+## Skill 与 Loop Engineering
+
+参考 Anthropic 和 Google Agent Skill 规范，统一目录、`SKILL.md`、触发条件、渐进式上下文与 scripts/references 分层。将数据、资源、显存和依赖检查前移为提交门禁；通过 Hook 记录调用与结果，形成“调用观测—Case 沉淀—回归评测—版本优化”闭环。
+
+## 智能开发链路
+
+完成 Jupyter AI、Claude Code、Claude Code Router 与一键 SSH 集成，并推动平台开放 OpenAPI、SDK、CLI 和 30+ 原子能力。Agent 因此可以从需求理解一直走到任务提交、日志获取、失败诊断与恢复建议。

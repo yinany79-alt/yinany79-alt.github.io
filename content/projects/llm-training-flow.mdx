@@ -1,0 +1,26 @@
+---
+slug: llm-training-flow
+title: 大模型训推与实验治理
+eyebrow: 02 / LLM TRAINING FLOW
+summary: 把数据集、训练任务、运行实例、实验记录和模型资产组织为统一产品模型。
+role: 产品负责人 / 9N LLM Flow
+period: 2024 — 至今
+tags: [Pretrain, SFT, RL, AIFlow, MLflow]
+outcomes: [提交耗时 40 min 降至 10 min, 任务成功率 87% 提升至 96%, 日训练任务 2 万+, 审计 130 个模型与 581 个任务组合]
+order: 2
+---
+## 从训练方法反推产品模型
+
+持续预训练、SFT、偏好对齐、强化学习和离线推理看似是不同任务，平台层面却需要共享数据、资源、运行、实验和资产治理。产品化的关键是找到稳定对象，同时保留算法差异。
+
+## 统一数据契约
+
+参与制定 JSON/JSONL 数据契约，以 Alpaca 和 ChatML 覆盖纯文本、多轮对话、工具调用和多模态数据。将 Pretrain/SFT 的语料与指令、DPO/KTO 的偏好对与二元反馈、GRPO 的 Prompt/Rollout/Ground Truth/Reward 抽象成标准数据类型。
+
+## 从配置到可恢复的运行
+
+将 task/model/peft/custom/train 等底层配置组织为模型、数据、镜像、GPU/NPU、超参数、Checkpoint 与产物的任务流程。围绕状态机、提交前检查、调度归因、容错重试和断点续训优化长周期任务。
+
+## AIFlow 与 MLflow
+
+参考 Dify、Coze 的工作流编排思路建设 AIFlow，将数据处理、训练、评测、离线推理与模型导出编排为可复用 DAG。集成 MLflow 作为指标存取与可视化工具，以 Experiment、Run、Param、Metric、Artifact 和 Model 组织实验数据。
