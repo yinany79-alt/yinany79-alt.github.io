@@ -37,7 +37,8 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
     const draw = () => {
       const box = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, box.width, box.height);
-      ctx.fillStyle = "rgba(242,242,238,.64)";
+      const styles = getComputedStyle(canvas);
+      ctx.fillStyle = styles.getPropertyValue("--topology-dot").trim() || "rgba(25,31,42,.5)";
       const bias = modeBias[mode];
       for (const dot of dots) {
         const dx = dot.x - pointer.current.x;
@@ -52,7 +53,7 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
         ctx.fillRect(dot.x, dot.y, size, size);
       }
       ctx.globalAlpha = 1;
-      ctx.strokeStyle = "rgba(242,242,238,.26)";
+      ctx.strokeStyle = styles.getPropertyValue("--topology-line").trim() || "rgba(25,31,42,.22)";
       ctx.setLineDash([2, 5]);
       ctx.beginPath();
       ctx.moveTo(box.width * .15, box.height * .29);
@@ -69,15 +70,20 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
       const box = canvas.getBoundingClientRect();
       pointer.current = { x: event.clientX - box.left, y: event.clientY - box.top };
     };
+    const onThemeChange = () => {
+      if (reducedMotion) draw();
+    };
     resize();
     draw();
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
     canvas.parentElement?.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("themechange", onThemeChange);
     return () => {
       cancelAnimationFrame(animation);
       observer.disconnect();
       canvas.parentElement?.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("themechange", onThemeChange);
     };
   }, [mode, reducedMotion]);
 

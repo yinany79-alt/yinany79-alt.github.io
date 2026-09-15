@@ -16,7 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" data-theme="light" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{const t=localStorage.getItem("yy-theme");document.documentElement.dataset.theme=t==="planet"?"planet":"light"}catch(e){document.documentElement.dataset.theme="light"}`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
