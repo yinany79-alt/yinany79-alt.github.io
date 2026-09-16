@@ -5,13 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { siteProfile } from "@/content/site";
 import { ModeSelector, type Mode, type ModeKey } from "./mode-selector";
 import { NodeDetail, type NodeInfo } from "./node-detail";
-import { SiteHeader } from "./site-header";
+import { OpportunityCard } from "./opportunity-card";
 import { TopologyCanvas } from "./topology-canvas";
 
 const modes: Mode[] = [
-  { key: "harness", index: "01", label: "HARNESS", activeNodes: ["PLAN", "TOOL", "EVAL", "MEMORY"] },
-  { key: "training", index: "02", label: "TRAINING", activeNodes: ["DATA", "TRAIN", "EVAL", "DEPLOY"] },
-  { key: "recommendation", index: "03", label: "RECOMMENDATION", activeNodes: ["DATA", "TRAIN", "DEPLOY"] },
+  { key: "harness", index: "01", label: "智能体系统", activeNodes: ["PLAN", "TOOL", "EVAL", "MEMORY"] },
+  { key: "training", index: "02", label: "模型训练", activeNodes: ["DATA", "TRAIN", "EVAL", "DEPLOY"] },
+  { key: "recommendation", index: "03", label: "生成式推荐", activeNodes: ["DATA", "TRAIN", "DEPLOY"] },
 ];
 
 const nodes: (NodeInfo & { x: number; y: number })[] = [
@@ -37,16 +37,6 @@ export function ControlRoom() {
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-      const index = modes.findIndex((item) => item.key === mode);
-      const delta = event.key === "ArrowDown" ? 1 : -1;
-      setMode(modes[(index + delta + modes.length) % modes.length].key);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [mode]);
 
-  return <main className="control-room" id="top"><SiteHeader /><div className="control-grid"><section className="identity" aria-labelledby="hero-title"><p className="identity-kicker mono">HUMAN / IDEAS / SYSTEMS<br />A MORE CAPABLE TOMORROW</p><h1 id="hero-title">{siteProfile.name}<span className="sr-only"> / {siteProfile.nameEn}</span></h1><h2>{siteProfile.headline}</h2><p className="identity-role">{siteProfile.role}</p><p className="identity-copy">{siteProfile.statement}</p><div className="identity-actions"><a className="primary-link" href="#archive">进入系统 <ArrowRight size={16} /></a><a className="secondary-link" href="/writing">阅读文章</a></div></section><section className="topology-stage" aria-label="Agentic 系统拓扑"><TopologyCanvas mode={mode} reducedMotion={reducedMotion} />{nodes.map((node) => <button key={node.id} type="button" className="topology-node" style={{ left: `${node.x}%`, top: `${node.y}%` }} data-active={active.has(node.id)} aria-label={`打开 ${node.title} 详情`} onClick={() => setSelected(node)}><span>{node.id}</span></button>)}</section><ModeSelector modes={modes} active={mode} onChange={setMode} /></div><div className="status-bar">OBSERVE → BUILD → EVALUATE → EVOLVE</div><NodeDetail node={selected} onClose={() => setSelected(null)} /></main>;
+  return <section className="control-room" id="top" aria-labelledby="hero-title"><div className="control-grid"><section className="identity"><p className="identity-welcome">{siteProfile.welcome}</p><h1 id="hero-title">{siteProfile.name}<span className="sr-only"> / {siteProfile.nameEn}</span></h1><p className="identity-role">{siteProfile.role}</p><h2>{siteProfile.headline}</h2><p className="identity-copy">{siteProfile.statement}</p><OpportunityCard status={siteProfile.opportunityStatus} focusAreas={siteProfile.focusAreas} /><div className="identity-actions"><a className="primary-link" href={siteProfile.resumeHref}>查看简历 <ArrowRight size={16} /></a><a className="secondary-link" href="#current-work">了解我的工作</a></div></section><section className="topology-workspace" aria-label="技术关注图谱"><div className="topology-heading"><span>技术关注图谱</span><span>点击节点查看实践</span></div><div className="topology-stage"><TopologyCanvas mode={mode} reducedMotion={reducedMotion} />{nodes.map((node) => <button key={node.id} type="button" className="topology-node" style={{ left: `${node.x}%`, top: `${node.y}%` }} data-active={active.has(node.id)} data-label-side={node.x > 68 ? "left" : "right"} aria-label={`打开 ${node.title} 详情`} onClick={() => setSelected(node)}><span>{node.id}</span></button>)}</div><ModeSelector modes={modes} active={mode} onChange={setMode} /></section></div><div className="status-bar">观察 → 构建 → 评测 → 演进</div><NodeDetail node={selected} onClose={() => setSelected(null)} /></section>;
 }

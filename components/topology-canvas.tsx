@@ -24,7 +24,8 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
       canvas.width = Math.floor(box.width * ratio);
       canvas.height = Math.floor(box.height * ratio);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const count = Math.min(1600, Math.floor((box.width * box.height) / 260));
+      const cap = box.width < 640 ? 360 : 840;
+      const count = Math.min(cap, Math.max(160, Math.floor((box.width * box.height) / 420)));
       dots = Array.from({ length: count }, (_, index) => {
         const t = index / count * Math.PI * 8;
         const radius = (index % 97) / 97;
@@ -32,6 +33,7 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
         const y = box.height * (.53 + Math.sin(t * .73) * radius * .43);
         return { x, y, ox: x, oy: y, phase: Math.random() * Math.PI * 2 };
       });
+      if (reducedMotion) draw();
     };
 
     const draw = () => {
