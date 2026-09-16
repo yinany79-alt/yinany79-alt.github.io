@@ -9,9 +9,12 @@ const requiredPaths = [
   "projects/llm-training-flow.html",
   "projects/generative-recommendation.html",
   "writing.html",
+  "writing/generative-recommendation-infra.html",
   "writing/harness-is-a-system.html",
+  "writing/llm-training-product-model.html",
   "resume.html",
   "resume/yang-yinan-resume.pdf",
+  "about.html",
 ];
 for (const relativePath of requiredPaths) {
   if (!fs.existsSync(path.join(output, relativePath))) throw new Error(`构建产物缺失：${relativePath}`);
