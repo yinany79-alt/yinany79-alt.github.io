@@ -8,5 +8,5 @@ export function generateStaticParams() { return getPosts().map(({ slug }) => ({ 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const post = getPost((await params).slug);
   if (!post) notFound();
-  return <ContentShell eyebrow={`${post.topic.toUpperCase()} / TECHNICAL NOTE`} title={post.title} intro={post.summary}><div className="article-meta"><span>{post.publishedAt}</span><span>{post.readingMinutes} MIN READ</span></div><MarkdownContent source={post.body} /></ContentShell>;
+  return <ContentShell section="技术文章" title={post.title} intro={post.summary} density="article"><div className="article-meta"><span>{post.publishedAt}</span><span>约 {post.readingMinutes} 分钟</span></div><MarkdownContent source={post.body} /></ContentShell>;
 }

@@ -200,9 +200,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .site-header { position: absolute; z-index: 30; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; min-height: 72px; padding: 0 clamp(28px, 3.5vw, 64px); }
 .wordmark { color: var(--site-text); font: 13px "SFMono-Regular", "Cascadia Mono", Menlo, monospace; letter-spacing: .08em; text-decoration: none; }
 .wordmark::before { content: "[ ◉ ]"; margin-right: 12px; color: var(--site-text); }
-.site-header-actions { display: flex; align-items: center; gap: clamp(20px, 2.4vw, 36px); }
-.site-nav { display: flex; gap: clamp(22px, 3vw, 52px); }
-.site-nav a { color: var(--site-text-soft); font: 12px "SFMono-Regular", "Cascadia Mono", Menlo, monospace; text-decoration: none; }
+.site-header-actions { display: flex; min-width: 0; align-items: center; gap: clamp(20px, 2.4vw, 36px); }
+.site-nav { display: flex; min-width: 0; gap: clamp(22px, 3vw, 52px); }
+.site-nav a { display: inline-flex; min-height: 44px; flex: 0 0 auto; align-items: center; color: var(--site-text-soft); font-size: 14px; text-decoration: none; }
 .site-nav a:hover { color: var(--site-accent); }
 .theme-toggle { display: flex; align-items: center; gap: 8px; min-height: 36px; color: var(--site-text-muted); }
 .theme-toggle [data-slot="switch"] { border: 1px solid var(--site-line-strong); background: var(--site-surface-muted); box-shadow: none; }
@@ -238,10 +238,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-width: 620px) {
-  .site-header { min-height: 64px; }
-  .site-header-actions { gap: 12px; }
-  .site-nav { gap: 16px; }
-  .site-nav a:nth-child(-n+2) { display: none; }
+  .site-header { min-height: 64px; gap: 12px; padding: 0 16px; }
+  .wordmark { flex: 0 0 auto; }
+  .wordmark::before { display: none; }
+  .site-header-actions { min-width: 0; flex: 1; gap: 10px; }
+  .site-nav { min-width: 0; flex: 1; gap: 14px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav a { min-height: 44px; font-size: 13px; }
   .theme-icon, .theme-label { display: none; }
   .control-grid { padding: 82px 20px 54px; }
   .identity h1 { font-size: 39px; }
@@ -268,6 +271,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .content-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 420px); gap: 38px 90px; align-items: end; padding-bottom: 64px; border-bottom: 1px solid var(--site-line-strong); }
 .content-eyebrow { grid-column: 1 / -1; margin: 0; color: var(--site-text-muted); font: 12px "SFMono-Regular", "Cascadia Mono", Menlo, monospace; letter-spacing: .18em; }
 .content-hero h1 { margin: 0; max-width: 760px; font-size: clamp(42px, 5.2vw, 74px); line-height: 1.07; font-weight: 500; letter-spacing: -.055em; text-wrap: balance; }
+.content-page[data-density="compact"] .content-wrap { padding-top: 126px; }
+.content-page[data-density="compact"] .content-hero { padding-bottom: 48px; }
+.content-page[data-density="compact"] .content-hero h1 { font-size: clamp(36px, 4.2vw, 56px); }
+.content-page[data-density="article"] .content-hero h1 { font-size: clamp(40px, 4.8vw, 64px); }
 .content-hero > p:last-child { margin: 0; color: var(--site-text-soft); font-size: 16px; line-height: 1.9; }
 .record-list { border-bottom: 1px solid var(--site-line-strong); }
 .record-row { display: grid; grid-template-columns: 70px minmax(0, 1fr) 40px; gap: 24px; align-items: center; min-height: 164px; padding: 30px 0; border-top: 1px solid var(--site-line); color: inherit; text-decoration: none; transition: color .2s ease, padding .25s ease; }
@@ -331,7 +338,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .content-wrap { width: min(100% - 36px, 1120px); padding-top: 110px; }
   .content-hero, .home-manifesto { grid-template-columns: 1fr; gap: 24px; }
   .content-hero { padding-bottom: 42px; }
-  .content-hero h1 { font-size: 43px; }
+  .content-hero h1, .content-page[data-density="compact"] .content-hero h1 { font-size: 36px; }
+  .content-page[data-density="article"] .content-hero h1 { font-size: 38px; }
   .record-row { grid-template-columns: 40px minmax(0, 1fr) 20px; gap: 12px; min-height: 142px; }
   .record-main strong { font-size: 25px; }
   .project-meta, .resume-summary, .about-grid { grid-template-columns: 1fr; }
