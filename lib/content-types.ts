@@ -44,3 +44,5 @@ export type PostRecord = {
   draft: boolean;
   body: string;
 };
+
+export type PostSummary = Omit<PostRecord, "body">;

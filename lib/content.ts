@@ -101,3 +101,11 @@ export function getPosts(): PostRecord[] {
 }
 
 export function getPost(slug: string) { return getPosts().find((item) => item.slug === slug); }
+
+export function getPostSummaries() {
+  return getPosts().map(({ slug, title, summary, topic, tags, publishedAt, readingMinutes, draft }) => ({ slug, title, summary, topic, tags, publishedAt, readingMinutes, draft }));
+}
+
+export function getPostTags(posts: Array<Pick<PostRecord, "tags">> = getPosts()) {
+  return [...new Set(posts.flatMap((post) => post.tags))].sort((a, b) => a.localeCompare(b, "zh-CN"));
+}

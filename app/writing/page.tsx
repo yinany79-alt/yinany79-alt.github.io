@@ -1,7 +1,8 @@
 import { ContentShell } from "@/components/content-shell";
-import { PostList } from "@/components/post-list";
-import { getPosts } from "@/lib/content";
+import { PostFilter } from "@/components/post-filter";
+import { getPostSummaries, getPostTags } from "@/lib/content";
 
 export default function WritingPage() {
-  return <ContentShell section="技术文章" title="记录我如何理解技术与产品" intro="这些文章从真实工作中的问题出发，关心数据、系统、评测和长期演进。"><PostList posts={getPosts()} /></ContentShell>;
+  const posts = getPostSummaries();
+  return <ContentShell section="文章归档" title="文章" intro="记录我对智能体系统、模型训练、数据与算法基础设施的理解，也保留真实实践中的判断与复盘。" density="compact"><PostFilter posts={posts} tags={getPostTags(posts)} /></ContentShell>;
 }
