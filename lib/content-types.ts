@@ -20,6 +20,18 @@ export type Workstream = {
   tone: "blue" | "cyan" | "amber" | "violet";
 };
 
+export type ExperienceRecord = {
+  id: "jd" | "pku";
+  kind: "work" | "education";
+  organization: string;
+  unit: string;
+  title: string;
+  detail?: string;
+  period: string;
+  logoSrc: string;
+  logoAlt: string;
+};
+
 export type ProjectRecord = {
   slug: string;
   title: string;

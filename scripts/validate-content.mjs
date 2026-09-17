@@ -57,4 +57,7 @@ const pdf = path.join(projectRoot, "public", "resume", "yang-yinan-resume.pdf");
 if (!fs.existsSync(pdf) || fs.readFileSync(pdf).subarray(0, 4).toString() !== "%PDF") {
   throw new Error("简历 PDF 缺失或格式无效");
 }
+for (const brand of ["public/brands/jd.png", "public/brands/pku.png"]) {
+  if (!fs.existsSync(path.join(projectRoot, brand))) throw new Error(`品牌资产缺失：${brand}`);
+}
 console.log(`内容校验通过：${validatedCount} 篇项目/文章，简历 PDF 有效。`);

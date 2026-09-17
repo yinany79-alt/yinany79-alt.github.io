@@ -1,4 +1,4 @@
-import type { SiteProfile, Workstream } from "@/lib/content-types";
+import type { ExperienceRecord, SiteProfile, Workstream } from "@/lib/content-types";
 
 export const siteProfile: SiteProfile = {
   name: "杨弋南",
@@ -42,4 +42,9 @@ export const workstreams: Workstream[] = [
     href: "/projects/generative-recommendation",
     tone: "violet",
   },
+];
+
+export const experiences: ExperienceRecord[] = [
+  { id: "jd", kind: "work", organization: "京东零售", unit: "AI Infra 与大数据计算部", title: "AI 产品经理", period: "2025–至今", logoSrc: "/brands/jd.png", logoAlt: "京东 Logo" },
+  { id: "pku", kind: "education", organization: "北京大学", unit: "信息管理系", title: "信息管理与信息系统", detail: "本科", period: "2021–2025", logoSrc: "/brands/pku.png", logoAlt: "北京大学 Logo" },
 ];
