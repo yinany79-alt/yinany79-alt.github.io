@@ -2,7 +2,7 @@ import type { ExperienceRecord, SiteProfile, Workstream } from "@/lib/content-ty
 
 export const siteProfile: SiteProfile = {
   name: "杨弋南",
-  nameEn: "YANG YINAN",
+  nameEn: "Yveson",
   welcome: "欢迎来到我的空间",
   role: "AI Infra 产品 · Agent Harness · 大模型训练平台",
   headline: "构建能工作的智能系统",
