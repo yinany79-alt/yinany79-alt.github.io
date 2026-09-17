@@ -52,9 +52,9 @@
   --sidebar-accent-foreground: #151820;
   --sidebar-border: #d8dde6;
   --sidebar-ring: #245cff;
-  --site-bg: #f5f2eb;
-  --site-surface: #fbfaf7;
-  --site-surface-muted: #ece8df;
+  --site-bg: #ffffff;
+  --site-surface: #ffffff;
+  --site-surface-muted: #f1f3f6;
   --site-text: #151820;
   --site-text-soft: #414957;
   --site-text-muted: #5e6775;
@@ -374,7 +374,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .experience-item { display: grid; grid-template-columns: 166px minmax(0, 1fr) auto; gap: 26px; align-items: center; min-height: 142px; padding: 22px 0; border-bottom: 1px solid var(--site-line); }
 .experience-logo { display: flex; width: 150px; min-height: 54px; align-items: center; justify-content: flex-start; padding: 7px 10px; }
 .experience-logo img { display: block; max-width: 100%; max-height: 44px; object-fit: contain; object-position: left center; }
-.experience-item[data-experience-id="jd"] .experience-logo { border-radius: 6px; background: #050505; }
+.experience-item[data-experience-id="jd"] .experience-logo { background: transparent; }
+.experience-item[data-experience-id="jd"] .experience-logo img { filter: drop-shadow(0 0 1px rgba(21, 24, 32, .75)); }
+[data-theme="planet"] .experience-item[data-experience-id="jd"] .experience-logo img { filter: none; }
 .experience-copy { display: grid; gap: 5px; }
 .experience-copy > span { color: var(--site-accent-warm); font: 12px var(--font-mono); letter-spacing: .08em; }
 .experience-copy h3 { margin: 3px 0 0; font-family: var(--font-editorial); font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
