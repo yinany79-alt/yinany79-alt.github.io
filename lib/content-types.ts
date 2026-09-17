@@ -21,7 +21,7 @@ export type Workstream = {
 };
 
 export type ExperienceRecord = {
-  id: "jd" | "pku";
+  id: string;
   kind: "work" | "education";
   organization: string;
   unit: string;
