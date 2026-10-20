@@ -4,7 +4,14 @@ import { useEffect, useRef } from "react";
 import type { ModeKey } from "./mode-selector";
 
 type Dot = { x: number; y: number; ox: number; oy: number; phase: number };
-const modeBias: Record<ModeKey, number> = { harness: 0, training: 1.7, recommendation: 3.4 };
+const modeBias: Record<ModeKey, number> = { harness: 0, evaluation: 1.7, training: 3.4 };
+const points = { data: [.15, .29], tool: [.73, .22], plan: [.48, .44], memory: [.18, .69], train: [.51, .73], eval: [.83, .55], deploy: [.89, .8] } as const;
+type PointKey = keyof typeof points;
+const routes: Record<ModeKey, [PointKey, PointKey][]> = {
+  harness: [["plan", "tool"], ["tool", "memory"], ["memory", "plan"]],
+  evaluation: [["plan", "eval"], ["eval", "train"], ["train", "memory"], ["memory", "plan"]],
+  training: [["data", "train"], ["train", "eval"], ["eval", "deploy"]],
+};
 
 export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reducedMotion: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -17,6 +24,7 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
     let frame = 0;
     let dots: Dot[] = [];
     let animation = 0;
+    let visible = true;
 
     const resize = () => {
       const box = canvas.getBoundingClientRect();
@@ -24,7 +32,7 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
       canvas.width = Math.floor(box.width * ratio);
       canvas.height = Math.floor(box.height * ratio);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const cap = box.width < 640 ? 360 : 840;
+      const cap = box.width < 640 ? 230 : 480;
       const count = Math.min(cap, Math.max(160, Math.floor((box.width * box.height) / 420)));
       dots = Array.from({ length: count }, (_, index) => {
         const t = index / count * Math.PI * 8;
@@ -56,16 +64,22 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
       }
       ctx.globalAlpha = 1;
       ctx.strokeStyle = styles.getPropertyValue("--topology-line").trim() || "rgba(25,31,42,.22)";
-      ctx.setLineDash([2, 5]);
-      ctx.beginPath();
-      ctx.moveTo(box.width * .15, box.height * .29);
-      ctx.bezierCurveTo(box.width * .42, box.height * .12, box.width * .5, box.height * .45, box.width * .73, box.height * .21);
-      ctx.bezierCurveTo(box.width * .92, box.height * .38, box.width * .8, box.height * .66, box.width * .88, box.height * .78);
-      ctx.moveTo(box.width * .15, box.height * .7);
-      ctx.bezierCurveTo(box.width * .35, box.height * .5, box.width * .62, box.height * .72, box.width * .88, box.height * .78);
-      ctx.stroke();
+      ctx.strokeStyle = styles.getPropertyValue("--mode-color").trim() || "#245cff";
+      ctx.globalAlpha = .38;
+      ctx.lineWidth = .8;
+      ctx.setLineDash([3, 6]);
+      ctx.lineDashOffset = reducedMotion ? 0 : -frame * .13;
+      for (const [start, end] of routes[mode]) {
+        const [x1, y1] = points[start];
+        const [x2, y2] = points[end];
+        ctx.beginPath();
+        ctx.moveTo(box.width * x1, box.height * y1);
+        ctx.quadraticCurveTo(box.width * ((x1 + x2) / 2 + .04), box.height * ((y1 + y2) / 2 - .08), box.width * x2, box.height * y2);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
       frame += 1;
-      if (!reducedMotion) animation = requestAnimationFrame(draw);
+      if (!reducedMotion && visible) animation = requestAnimationFrame(draw);
     };
 
     const onPointerMove = (event: PointerEvent) => {
@@ -75,16 +89,27 @@ export function TopologyCanvas({ mode, reducedMotion }: { mode: ModeKey; reduced
     const onThemeChange = () => {
       if (reducedMotion) draw();
     };
+    const onPointerLeave = () => { pointer.current = { x: -1000, y: -1000 }; };
     resize();
     draw();
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
+    const intersection = new IntersectionObserver(([entry]) => {
+      const resume = entry.isIntersecting && !visible;
+      visible = entry.isIntersecting;
+      if (!visible) cancelAnimationFrame(animation);
+      else if (resume) draw();
+    });
+    intersection.observe(canvas);
     canvas.parentElement?.addEventListener("pointermove", onPointerMove);
+    canvas.parentElement?.addEventListener("pointerleave", onPointerLeave);
     window.addEventListener("themechange", onThemeChange);
     return () => {
       cancelAnimationFrame(animation);
       observer.disconnect();
+      intersection.disconnect();
       canvas.parentElement?.removeEventListener("pointermove", onPointerMove);
+      canvas.parentElement?.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("themechange", onThemeChange);
     };
   }, [mode, reducedMotion]);

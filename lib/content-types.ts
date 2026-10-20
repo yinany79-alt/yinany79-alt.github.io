@@ -13,7 +13,7 @@ export type SiteProfile = {
 };
 
 export type Workstream = {
-  id: "harness" | "skills" | "training" | "recommendation";
+  id: "harness" | "evaluation" | "training";
   title: string;
   summary: string;
   href: string;

@@ -2,33 +2,40 @@
 
 import { ArrowRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { siteProfile } from "@/content/site";
+import { siteProfile, workstreams } from "@/content/site";
 import { ModeSelector, type Mode, type ModeKey } from "./mode-selector";
 import { NodeDetail, type NodeInfo } from "./node-detail";
 import { OpportunityCard } from "./opportunity-card";
 import { TopologyCanvas } from "./topology-canvas";
 
 const modes: Mode[] = [
-  { key: "harness", index: "01", label: "智能体系统", activeNodes: ["PLAN", "TOOL", "EVAL", "MEMORY"] },
-  { key: "training", index: "02", label: "模型训练", activeNodes: ["DATA", "TRAIN", "EVAL", "DEPLOY"] },
-  { key: "recommendation", index: "03", label: "生成式推荐", activeNodes: ["DATA", "TRAIN", "DEPLOY"] },
+  { key: "harness", index: "01", label: "智能开发", activeNodes: ["PLAN", "TOOL", "MEMORY"] },
+  { key: "evaluation", index: "02", label: "答疑与评测", activeNodes: ["PLAN", "EVAL", "TRAIN", "MEMORY"] },
+  { key: "training", index: "03", label: "算法工作流", activeNodes: ["DATA", "TRAIN", "EVAL", "DEPLOY"] },
 ];
 
 const nodes: (NodeInfo & { x: number; y: number })[] = [
-  { id: "DATA", title: "Data Contract", description: "将数据格式、质量与训练范式之间的关系产品化。", evidence: "统一 Pretrain、SFT、DPO、KTO 与 GRPO 的数据类型，把截断、Packing、Mask 和预处理缓存变成可配置、可校验的平台规则。", href: "/projects/llm-training-flow", x: 15, y: 29 },
-  { id: "TOOL", title: "Tool System", description: "让 Agent 可以安全、连续地操作训练平台。", evidence: "将 OpenAPI、SDK、CLI 和 30+ 原子能力组装为可观测、可恢复的工具链，打通配置、提交、监控与诊断。", href: "/projects/agent-harness", x: 73, y: 22 },
-  { id: "PLAN", title: "Harness Planning", description: "从意图到证据，用状态和评测约束长任务。", evidence: "把执行抽象为意图识别、事实取证、计划生成、Tool 调用、结果校验和失败降级，并建立 Gold Set 和回归门禁。", href: "/projects/agent-harness", x: 48, y: 44 },
-  { id: "MEMORY", title: "Loop Memory", description: "让成功和失败经验可以被下一次迭代使用。", evidence: "通过 Hook 记录调用与结果，将成功案例和失败 Case 纳入回归，形成调用观测、Case 沉淀、回归评测与版本优化闭环。", href: "/projects/agent-harness", x: 18, y: 69 },
-  { id: "TRAIN", title: "Training Flow", description: "将算法配置转译为完整的训练产品流程。", evidence: "覆盖模型、数据、镜像、异构硬件、超参数、Checkpoint 和产物，并将分布式策略与风险提示前置。", href: "/projects/llm-training-flow", x: 51, y: 73 },
-  { id: "EVAL", title: "Evaluation", description: "不只验证结果，也验证决策过程和系统稳定性。", evidence: "建设 Case、任务、结果和版本对比机制，支持自动评分、人工复核、Bad Case 回归、基线对比和灰度门禁。", href: "/projects/agent-harness", x: 83, y: 55 },
-  { id: "DEPLOY", title: "Delivery", description: "让实验结果能被追溯、导出和复用。", evidence: "通过 AIFlow 编排数据、训练、评测、离线推理和模型导出，并以 MLflow 统一管理指标、参数、产物和实验对比。", href: "/projects/llm-training-flow", x: 89, y: 80 },
+  { id: "DATA", title: "数据与实验", description: "一次实验要能说清输入、配置与结果。", evidence: "以模型、训练任务与实验指标组织研发过程，通过 AIFlow 和 MLflow 串起工作流执行、指标存取和实验对比。", href: "/projects/llm-training-flow", x: 15, y: 29 },
+  { id: "TOOL", title: "工具与 Skill", description: "将平台能力接入 Agent 工作台。", evidence: "18 个 Skills、6 条算法 Workflow 与 30+ 原子能力，连接代码检查、资源查询、训练提交和持续监控。", href: "/projects/agent-harness", x: 73, y: 22 },
+  { id: "PLAN", title: "任务规划", description: "从用户目标走向可以检查的执行过程。", evidence: "9N-Harness 根据项目上下文选择 Skill 与 Workflow；答疑 Bot 通过多路由 Harness 组织意图识别、取证、调用和校验。", href: "/projects/agent-harness", x: 48, y: 44 },
+  { id: "MEMORY", title: "反馈与迭代", description: "让一次执行的经验，进入下一次改进。", evidence: "通过 Hook 记录调用，把失败 Case 与成功方案回流回归验证，连接版本对比、灰度发布与运行监控。", href: "/projects/agent-harness", x: 18, y: 69 },
+  { id: "TRAIN", title: "训练与调优", description: "从模型实验走到可使用的服务。", evidence: "完成 MiniCPM5-2B 全参 SFT、Checkpoint 对照、BF16 导出与 vLLM 服务部署；后续计划推进 RL。", href: "/projects/agent-evaluation", x: 51, y: 73 },
+  { id: "EVAL", title: "端到端评测", description: "把系统质量变成可以复核的结果。", evidence: "独立完成评测系统数据库、前后端开发与部署，支持端到端任务评测、轨迹多维评分、人工复核和版本对比。", href: "/projects/agent-evaluation", x: 83, y: 55 },
+  { id: "DEPLOY", title: "工作流交付", description: "让研发过程能够复用、恢复和追溯。", evidence: "AIFlow 编排开发、训练、评估和发布；MLflow 持久化指标与实验记录；Notebook 提供交互式开发环境。", href: "/projects/llm-training-flow", x: 89, y: 80 },
 ];
+
+const paths: Record<ModeKey, string[]> = {
+  harness: ["理解项目", "选择 Skill", "执行任务", "记录结果"],
+  evaluation: ["提出问题", "取证诊断", "端到端评测", "版本迭代"],
+  training: ["开发调试", "编排任务", "训练评估", "对比交付"],
+};
 
 export function ControlRoom() {
   const [mode, setMode] = useState<ModeKey>("harness");
   const [selected, setSelected] = useState<NodeInfo | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
   const active = useMemo(() => new Set(modes.find((item) => item.key === mode)?.activeNodes), [mode]);
+  const current = workstreams.find((item) => item.id === mode)!;
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,5 +45,27 @@ export function ControlRoom() {
     return () => query.removeEventListener("change", update);
   }, []);
 
-  return <section className="control-room" id="top" aria-labelledby="hero-title"><div className="control-grid"><section className="identity"><div className="identity-name-lockup"><p className="identity-welcome">{siteProfile.welcome}</p><h1 id="hero-title">{siteProfile.name}</h1><p className="identity-signature" aria-label={`英文名 ${siteProfile.nameEn}`}>{siteProfile.nameEn}</p><p className="identity-role">{siteProfile.role}</p></div><h2>{siteProfile.headline}</h2><p className="identity-copy">{siteProfile.statement}</p><OpportunityCard status={siteProfile.opportunityStatus} focusAreas={siteProfile.focusAreas} /><div className="identity-actions"><a className="primary-link" href={siteProfile.resumeHref}>查看简历 <ArrowRight size={16} /></a><a className="secondary-link" href="#current-work">了解我的工作</a></div></section><section className="topology-workspace" aria-label="技术关注图谱"><div className="topology-heading"><span>技术关注图谱</span><span>点击节点查看实践</span></div><div className="topology-stage"><TopologyCanvas mode={mode} reducedMotion={reducedMotion} />{nodes.map((node) => <button key={node.id} type="button" className="topology-node" style={{ left: `${node.x}%`, top: `${node.y}%` }} data-active={active.has(node.id)} data-label-side={node.x > 68 ? "left" : "right"} aria-label={`打开 ${node.title} 详情`} onClick={() => setSelected(node)}><span>{node.id}</span></button>)}</div><ModeSelector modes={modes} active={mode} onChange={setMode} /></section></div><div className="status-bar">观察 → 构建 → 评测 → 演进</div><NodeDetail node={selected} onClose={() => setSelected(null)} /></section>;
+  return <section className="control-room" data-mode={mode} id="top" aria-labelledby="hero-title">
+    <div className="control-grid">
+      <section className="identity">
+        <div className="identity-name-lockup">
+          <p className="identity-welcome">{siteProfile.welcome}</p>
+          <div className="identity-names"><h1 id="hero-title">{siteProfile.name}</h1><p className="identity-signature" aria-label={`英文名 ${siteProfile.nameEn}`}>{siteProfile.nameEn}</p></div>
+          <p className="identity-role">{siteProfile.role}</p>
+        </div>
+        <h2>{siteProfile.headline.split("，").map((line, index) => <span key={line}>{index === 0 ? `${line}，` : line}</span>)}</h2>
+        <p className="identity-copy">{siteProfile.statement}</p>
+        <div className="identity-actions"><a className="primary-link" href="/resume">阅读简历 <ArrowRight size={16} /></a><a className="secondary-link" href="#current-work">探索我的工作 <ArrowRight size={16} /></a></div>
+        <OpportunityCard status={siteProfile.opportunityStatus} focusAreas={siteProfile.focusAreas} />
+      </section>
+      <section className="topology-workspace" aria-label="工作主线交互图谱">
+        <div className="topology-heading"><span>我的工作，如何连接</span><span>点击节点探索 ↗</span></div>
+        <div className="topology-stage"><TopologyCanvas mode={mode} reducedMotion={reducedMotion} />{nodes.map((node) => <button key={node.id} type="button" className="topology-node" style={{ left: `${node.x}%`, top: `${node.y}%` }} data-active={active.has(node.id)} data-label-side={node.x > 68 ? "left" : "right"} aria-label={`打开 ${node.title} 详情`} onClick={() => setSelected(node)}><span>{node.title}</span></button>)}</div>
+        <ModeSelector modes={modes} active={mode} onChange={(next) => { setMode(next); setSelected(null); }} />
+        <div className="mode-story" aria-live="polite" aria-atomic="true"><div className="mode-story-content" key={mode}><a href={current.href}>{current.title}<ArrowRight size={15} /></a><p>{current.summary}</p><ol className="mode-steps" aria-label="工作流程">{paths[mode].map((step) => <li key={step}>{step}</li>)}</ol></div></div>
+      </section>
+    </div>
+    <div className="status-bar"><span>构建 · 验证 · 持续迭代</span><a href="#current-work">向下阅读 ↓</a></div>
+    <NodeDetail node={selected ? { ...selected, href: selected.id === "PLAN" || selected.id === "MEMORY" || (selected.id === "TRAIN" && mode === "training") ? current.href : selected.href } : null} onClose={() => setSelected(null)} />
+  </section>;
 }

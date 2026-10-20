@@ -6,6 +6,7 @@ const requiredPaths = [
   "index.html",
   "projects.html",
   "projects/agent-harness.html",
+  "projects/agent-evaluation.html",
   "projects/llm-training-flow.html",
   "projects/generative-recommendation.html",
   "writing.html",

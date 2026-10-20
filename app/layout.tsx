@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "杨弋南 Yveson · AI Infra / Agent Harness",
-  description: "杨弋南的个人技术站，记录 Agent Harness、大模型训练平台与生成式推荐实践。",
+  description: "杨弋南 Yveson 的个人技术空间。记录 9N-Harness 与智能开发、算法中台答疑 Bot 与评测、模型训推和算法工作流平台实践。",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

@@ -42,7 +42,7 @@ export function ThemeToggle() {
         aria-label={planet ? "当前为星球模式，切换到浅色模式" : "当前为浅色模式，切换到星球模式"}
       ><span data-slot="switch-thumb" /></button>
       <MoonStar className="theme-icon theme-icon-planet" aria-hidden="true" />
-      <span className="theme-label mono">{planet ? "PLANET" : "LIGHT"}</span>
+      <span className="theme-label">{planet ? "星球" : "浅色"}</span>
     </div>
   );
 }

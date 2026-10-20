@@ -21,6 +21,8 @@ npm run check
 
 ## 日常维护
 
+当前网站与 2026 年 10 月 V9 简历同步，主要项目为 9N-Harness 与智能开发、算法中台答疑 Bot 建设与评测、算法工作流平台。新增模型实验放在对应项目内部；技术观察与项目交付分开表达。
+
 - 个人定位、首页文案与简历路径：`content/site.ts`
 - 项目案例：`content/projects/*.mdx`
 - 技术文章：`content/posts/*.mdx`
